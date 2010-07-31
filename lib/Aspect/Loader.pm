@@ -2,7 +2,7 @@ package Aspect::Loader;
 use 5.008008;
 use strict;
 use warnings;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 use Aspect;
 use Aspect::Loader::Configuration::YAML;
 use Aspect::Loader::Definition;
@@ -49,60 +49,34 @@ __END__
 
 =head1 NAME
 
-Class::DI - Perl dependency injection container
+Aspect::Loader - load aspect by configuration 
 
 =head1 SYNOPSIS
 configuration by yaml 
 
-injections:
- - name: hoge
-   class_name: Hoge
-   injection_type: setter
-   instance_type: prototype
-   properties:
-     name: hoge
- - name: fuga
-   class_name: Fuga
-   injection_type: constructer
-   instance_type: singleton
-   properties:
-     name: fuga
- - name: hogehoge
-   class_name: HogeHoge
-   injection_type: constructer
-   instance_type: singleton
-   properties:
-     hogehoge: 
-       name: fugafuga
-       class_name: FugaFuga
-       injection_type: constructer
-       instance_type: singleton
-       properties:
-         name: fugafuga
+  aspects:
+   - library: Singleton
+     call: Hoge::new
+   - library: Trace
+     call: Hoge::hogehoge
 
-
-  my $di = Class::DI->yaml_container($yaml_filepath);
-  # set from set_name method
-  # $hoge->set_name("hoge"); 
-  my $hoge = $di->get_component("hoge"); 
-  print $hoge->get_name; # hoge
-
-  # set from constructer 
-	# Fuga->new({name=>"fuga"});
-	my $fuga = $di->get_component("fuga"); 
-  print $fuga->get_name; # fuga
-
-	# nested class 
-	my $hogehoge = $di->get_component("hogehoge"); 
-  print $hogehoge->get_fugafuga->get_name; # fugafuga
+code
+  
+  Aspect::Loader->yaml_loader($yaml_path);
+  # singleton  same instance
+  Hoge->new->hoge;
+  Hoge->new->hoge;
+  # trace method
+  Hoge->hogehoge;
 
 =head1 DESCRIPTION
 
-this class does DI. The instance is generated based on an external setting,
- and the dependence between components is excluded from the source code. 
+This class is the one for Aspect.pm where Aspect is achieved with perl. 
+Aspect.pm is facilitated and the management enabling and operation are facilitated by the configuration file.  
 
 =head1 SEE ALSO
 
+this class is a tool for L<Aspect> 
 
 =head1 AUTHOR
 
